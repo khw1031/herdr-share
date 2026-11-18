@@ -35,14 +35,14 @@ With the sidebar narrower than 160px, the chips are hidden, the Spaces rail numb
 
 - **Layout** `layouts/main-filter.json`: a `layout.clone` of Herdr's `main` (0.1.14) with four changes. The `spaces` block shows `spaces-filter` instead of `spaces`. The `agents` block shows `agents-filter` instead of `agents`. The `sidebar-footer` block shows `{ "mod": "job-scheduler", "props": { "view": "sidebar" } }` instead of `{ "mod": "workspace-chrome", "props": { "footer": true } }`. The footer is 101px instead of 69px. Tree: root row → `sidebar` column [`brand`, `sidebar-lists` column [`spaces`, `agents`], `sidebar-footer`] and `work` column [`tabs`, `work-body` row [`main` (`{ "tab": "active" }`), `panel` column [`panel-body` stack [`files`, `changes`]]], `status`].
 - **Shipped mods used as is:** `workspace-chrome` (brand, and its icons `mods/workspace-chrome/*.svg`, used by the filter mods), `tabs`, `pane`, `files`, `changes`, `workspace-status`, `machine-add`.
-- **`mods/agents-filter`:** a `mod.clone` of `agents` 0.1.14 with these changes:
+- **`mods/agents-filter`:** a `mod.clone` of `agents` (cloned at 0.1.14, upstream changes ported to 0.1.16) with these changes:
   - imports `machines`;
   - `machineOf(agent)` takes the part of the agent's address before `/` (`server/t7` → `server`), else `"@local"`;
   - `machineFilter(list)` reads `shared("machine.filter")` and keeps it only if it is `"@local"`, a name in `machines()`, or a machine some agent is on; otherwise `null`;
   - in `render` the list is filtered right after `track`/`hold`, before sub-agent nesting and `setAgentOrder`;
   - the header suffix and the empty-list text above;
   - the sort popup opens `mod: "agents-filter"` (its own name).
-- **`mods/spaces-filter`:** a `mod.clone` of `spaces` 0.1.14 with these changes:
+- **`mods/spaces-filter`:** a `mod.clone` of `spaces` (cloned at 0.1.14, upstream changes ported to 0.1.16) with these changes:
   - imports `nextCommand` and runs a command loop in `init`;
   - `knownMachines()` is `null` followed by the sorted names from `spaces()`, `hc machine ls` and machines being reconnected;
   - `filter()` reads `machine.filter` and drops a value that names no known machine;
@@ -57,7 +57,7 @@ With the sidebar narrower than 160px, the chips are hidden, the Spaces rail numb
 
 ## Watch out
 
-- **Clones go stale.** `agents-filter` and `spaces-filter` are clones of Herdr 0.1.14's `agents` and `spaces`, and clones never update. Herdr 0.1.16 has already changed both originals. On a newer Herdr, `mod.clone` the current `agents` and `spaces` and apply the changes listed in Built from instead of copying these two folders over.
+- **Clones go stale.** `agents-filter` and `spaces-filter` match Herdr 0.1.16's `agents` and `spaces` plus the changes above, and clones never update by themselves. On a newer Herdr, `mod.clone` the current `agents` and `spaces` and apply the changes listed in Built from instead of copying these two folders over.
 - **Shared key.** The two filter mods share the key `machine.filter`. `spaces-filter` writes it, both read it. Any other mod that uses the same key name will change these lists.
 - **Names point at themselves.** `agents-filter` opens its sort popup by its own name, and `job-scheduler` uses `mods/job-scheduler/*.svg` paths and `DETAIL_MOD = "job-scheduler"`. If a name is taken and you rename a folder, change these as well as the `mod` names in the layout.
 - **Programs.** `spaces-filter` runs what Herdr's `spaces` runs: `hc machine ls --json` every 15 seconds and `git status` / `git rev-parse` in each space's folder, also on other machines. `agents-filter` runs nothing new. The `job-scheduler` footer is more:

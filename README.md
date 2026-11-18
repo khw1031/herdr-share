@@ -21,7 +21,7 @@ Read **Watch out** in each `RECIPE.md` before adding. `job-scheduler` runs progr
 
 Copyright 2026 khw1031. Licensed under the Apache License, Version 2.0 ([LICENSE](LICENSE)).
 
-- `main-filter/mods/agents-filter` and `main-filter/mods/spaces-filter` are modified copies of Herdr's built-in Agents and Spaces mods (`agents` and `spaces`, Herdr 0.1.14). Herdr is licensed under Apache-2.0. The changes add the machine filter, shared through the key `machine.filter`. Each changed `main.js` says so in its first lines.
+- `main-filter/mods/agents-filter` and `main-filter/mods/spaces-filter` are modified copies of Herdr's built-in Agents and Spaces mods (`agents` and `spaces`, Herdr 0.1.16). Herdr is licensed under Apache-2.0. The changes add the machine filter, shared through the key `machine.filter`. Each changed `main.js` says so in its first lines.
 - `main-filter/layouts/main-filter.json` is a modified copy of Herdr's `main` layout (0.1.14).
 - `job-scheduler` uses three [Lucide](https://github.com/lucide-icons/lucide) icons (`clock.svg`, `settings.svg`, `plus.svg`, as shipped in Herdr's `workspace-chrome` mod) under the ISC License:
 
